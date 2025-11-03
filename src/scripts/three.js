@@ -1,5 +1,9 @@
 import '../style.css'
 
+window.addEventListener('DOMContentLoaded', () => {
+  // Tu código ThreeJS aquí
+});
+
 // Imports
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
