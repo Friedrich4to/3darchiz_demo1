@@ -53,7 +53,7 @@ controls.addEventListener('change', () => {
 
 const loader = new GLTFLoader();
 
-loader.load( 'models/exterior.glb', function ( gltf ) {
+loader.load( '/models/exterior.glb', function ( gltf ) {
 
   scene.add( gltf.scene );
 
