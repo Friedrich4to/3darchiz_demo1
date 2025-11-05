@@ -11,6 +11,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Escena
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xd1e9f3ff);
 
 // Camara
 const camera = new THREE.PerspectiveCamera(
@@ -19,8 +20,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.set(20, 12, 24); // X, Y, Z
-camera.rotation.x = -100;
+camera.position.set(20, 16, 0); // X, Y, Z
 
 camera.fov = 60;
 
@@ -34,7 +34,7 @@ const renderer = new THREE.WebGLRenderer({
 const controls = new OrbitControls(camera, renderer.domElement);
 
 // Configuración básica
-controls.target.set(0, 0, 0);
+controls.target.set(0, 0, -10);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
@@ -43,7 +43,7 @@ controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
 // 🔹 (Opcional) limitar la distancia del zoom
-controls.minDistance = 5;
+controls.minDistance = 20;
 controls.maxDistance = 100;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -86,11 +86,31 @@ scene.add(sunLight);
 const sunHelper = new THREE.DirectionalLightHelper(sunLight, 1);
 scene.add(sunHelper);
 
+// Variables para animación de zoom
+const startZ = camera.position.z;
+const endZ = 20;
+const zoomSpeed = 0.006;
+let zooming = true;
+
 // Animación
 function animate() {
     requestAnimationFrame(animate);
 
     controls.update();
+
+      if (zooming) {
+    // interpolación lineal (lerp)
+    camera.position.lerp(
+      new THREE.Vector3(camera.position.x, camera.position.y, endZ),
+      zoomSpeed
+    );
+
+    // detener cuando la cámara esté lo suficientemente cerca del destino
+    if (Math.abs(camera.position.z - endZ) < 0.05) {
+      camera.position.z = endZ;
+      zooming = false;
+    }
+  }
 
     renderer.render(scene, camera);
 }
