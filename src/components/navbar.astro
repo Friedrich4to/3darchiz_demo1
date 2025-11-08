@@ -10,7 +10,7 @@
 <script>
     const navLink = document.getElementById('navLink') as HTMLAnchorElement;
     const toggleBtn = document.getElementById('togglePiso2') as HTMLButtonElement;
-      const togglePlanos = document.getElementById('togglePlanos') as HTMLButtonElement;
+    const togglePlanos = document.getElementById('togglePlanos') as HTMLButtonElement;
     const path = window.location.pathname;
 
     // --- Configurar enlace dinámico ---
@@ -34,11 +34,24 @@
     }
 
     toggleBtn.addEventListener('click', () => {
-    const piso2 = (window as any).THREE_APP?.piso2;
-    if (piso2) {
-        piso2.visible = !piso2.visible;
+        const app = window.THREE_APP;
+        const piso2 = app?.piso2;
+        const controls = app?.controls;
+
+        if (piso2) {
+        piso2.visible = !piso2.visible; 
         updateToggleText();
-    }
+
+            // Cambiar target del control según visibilidad
+            if (controls) {
+                if (piso2.visible) {
+                controls.target.set(0, 0, 0);     // cuando el piso 2 es visible
+                } else {
+                controls.target.set(0, -40, 0);   // cuando está oculto
+                }
+                controls.update();
+            }
+        }
     });
 
     // --- Detectar cuándo THREE_APP.piso2 está disponible ---

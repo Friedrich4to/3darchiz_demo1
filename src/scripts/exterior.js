@@ -51,12 +51,14 @@ controls.addEventListener('change', () => {
 });
 
 
+
 // Modelados
 const loader = new GLTFLoader();
 
 loader.load( '/models/exterior.glb', function ( gltf ) {
 
   scene.add( gltf.scene );
+  console.log(gltf.cameras); // ← Array con las cámaras del .glb
 
 
 }, undefined, function ( error ) {
@@ -77,7 +79,7 @@ sunLight.castShadow = true;
 
 const sunHelper = new THREE.DirectionalLightHelper(sunLight, 1);
 
-scene.add(sunLight, sunHelper, ambientLight);
+scene.add(sunLight, ambientLight);
 
 
 // ANIM - ZoomOut
@@ -121,3 +123,4 @@ function animate() {
 }
 
 animate();
+

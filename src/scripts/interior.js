@@ -32,7 +32,6 @@ const renderer = new THREE.WebGLRenderer({
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-controls.target.set(0, 0, 0);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
@@ -72,7 +71,7 @@ loader.load(
     scene.add(piso2Group);
 
     // Guardar referencia global
-  window.THREE_APP = { scene, camera, renderer, piso2: piso2Group };
+  window.THREE_APP = { scene, camera, renderer, controls, piso2: piso2Group };
 
     console.log('Agrupados objetos de piso2:', piso2Group);
   },
