@@ -1,13 +1,12 @@
 import '../style.css'
 
-window.addEventListener('DOMContentLoaded', () => {
-  // Tu código ThreeJS aquí
-});
+  
 
 // Imports
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 
 // Escena
 const scene = new THREE.Scene();
@@ -19,10 +18,11 @@ const camera = new THREE.PerspectiveCamera(
     window.innerWidth / window.innerHeight,
     0.1,
     1000
-);
-camera.position.set(20, 16, 0); // X, Y, Z
-
+    );
+camera.position.set(16, 20, 40); // X, Y, Z
 camera.fov = 60;
+
+
 
 // Renderizador
 const renderer = new THREE.WebGLRenderer({ 
@@ -33,16 +33,13 @@ const renderer = new THREE.WebGLRenderer({
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// Configuración básica
-controls.target.set(0, 0, -10);
+controls.target.set(0, 0, 0);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
-// 🔹 Limitar el eje Y (rotación vertical)
 controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
-// 🔹 (Opcional) limitar la distancia del zoom
 controls.minDistance = 20;
 controls.maxDistance = 100;
 
@@ -53,8 +50,8 @@ controls.addEventListener('change', () => {
   controls.target.y = Math.max(0, Math.min(controls.target.y, 10)); // entre 0 y 10
 });
 
-// Geometría
 
+// Modelados
 const loader = new GLTFLoader();
 
 loader.load( '/models/exterior.glb', function ( gltf ) {
@@ -72,27 +69,35 @@ loader.load( '/models/exterior.glb', function ( gltf ) {
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
 ambientLight.intensity = 1.5;
-scene.add(ambientLight)
 
-// Luz solar (DirectionalLight = luz paralela, como el sol)
 const sunLight = new THREE.DirectionalLight(0xffffff, 2); // (color, intensidad)
 sunLight.position.set(30, 50, -20); // dirección desde donde entra la luz
 sunLight.intensity = 1;
 sunLight.castShadow = true;
 
-scene.add(sunLight);
-
-// 🔹 (Opcional) ayuda visual
 const sunHelper = new THREE.DirectionalLightHelper(sunLight, 1);
-scene.add(sunHelper);
 
-// Variables para animación de zoom
+scene.add(sunLight, sunHelper, ambientLight);
+
+
+// ANIM - ZoomOut
 const startZ = camera.position.z;
 const endZ = 20;
 const zoomSpeed = 0.006;
 let zooming = true;
 
-// Animación
+
+  function onWindowResize() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }
+  window.addEventListener('resize', onWindowResize);
+
+// Animación & Rrender
 function animate() {
     requestAnimationFrame(animate);
 
@@ -106,7 +111,7 @@ function animate() {
     );
 
     // detener cuando la cámara esté lo suficientemente cerca del destino
-    if (Math.abs(camera.position.z - endZ) < 0.05) {
+    if (Math.abs(camera.position.z - endZ) < 0.5) {
       camera.position.z = endZ;
       zooming = false;
     }
@@ -114,4 +119,5 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+
 animate();

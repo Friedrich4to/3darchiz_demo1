@@ -1,0 +1,79 @@
+---
+---
+
+<nav>
+    <a id="navLink"></a>
+    <button id="togglePiso2" style="display: none;"></button>
+    <button id="togglePlanos">Mostrar Planos</button>
+</nav>
+
+<script>
+    const navLink = document.getElementById('navLink') as HTMLAnchorElement;
+    const toggleBtn = document.getElementById('togglePiso2') as HTMLButtonElement;
+      const togglePlanos = document.getElementById('togglePlanos') as HTMLButtonElement;
+    const path = window.location.pathname;
+
+    // --- Configurar enlace dinámico ---
+    if (path === '/interior') {
+    navLink.href = '/';
+    navLink.textContent = 'Salir';
+    toggleBtn.style.display = 'inline-block'; // Mostrar el botón en /interior
+    } else {
+    navLink.href = '/interior';
+    navLink.textContent = 'Entrar';
+    toggleBtn.style.display = 'none'; // Ocultar el botón fuera de /interior
+    }
+
+    // --- Lógica de mostrar/ocultar piso 2 ---
+    function updateToggleText() {
+    const piso2 = (window as any).THREE_APP?.piso2;
+    if (!piso2) return;
+    toggleBtn.textContent = piso2.visible
+        ? 'Apartamento'
+        : 'Penthouse';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+    const piso2 = (window as any).THREE_APP?.piso2;
+    if (piso2) {
+        piso2.visible = !piso2.visible;
+        updateToggleText();
+    }
+    });
+
+    // --- Detectar cuándo THREE_APP.piso2 está disponible ---
+    if (path === '/interior') {
+    const checkInterval = setInterval(() => {
+        const piso2 = (window as any).THREE_APP?.piso2;
+        if (piso2) {
+        updateToggleText();
+        clearInterval(checkInterval);
+        }
+    }, 100);
+    }
+
+      // --- Botón para alternar clase .open en #planosBtn ---
+  togglePlanos.addEventListener('click', () => {
+    const planosBtn = document.getElementById('planosBtn');
+    if (!planosBtn) return;
+
+    planosBtn.classList.toggle('open');
+
+    const isOpen = planosBtn.classList.contains('open');
+    togglePlanos.textContent = isOpen
+      ? 'Ocultar Planos'
+      : 'Mostrar Planos';
+  });
+
+  // --- Estado inicial del botón de planos ---
+  window.addEventListener('DOMContentLoaded', () => {
+    const planosBtn = document.getElementById('planosBtn');
+    if (planosBtn?.classList.contains('open')) {
+      togglePlanos.textContent = 'Ocultar Planos';
+    } else {
+      togglePlanos.textContent = 'Mostrar Planos';
+    }
+  });
+
+</script>
+
