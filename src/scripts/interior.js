@@ -58,7 +58,7 @@ loader.load(
 
     const piso2Objects = [];
     gltf.scene.traverse((child) => {
-      if (child.name.startsWith('piso2')) {
+      if (child.name.includes('piso2')) {
         piso2Objects.push(child);
       }
     });
