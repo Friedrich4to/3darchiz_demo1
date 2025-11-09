@@ -19,7 +19,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
     );
-camera.position.set(16, 20, 40); // X, Y, Z
+camera.position.set(16, 16, 20); // X, Y, Z
 camera.fov = 60;
 
 
@@ -33,14 +33,14 @@ const renderer = new THREE.WebGLRenderer({
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-controls.target.set(0, 0, 0);
+controls.target.set(0, 5, -5);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
 controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
-controls.minDistance = 20;
+controls.minDistance = 30;
 controls.maxDistance = 100;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -104,20 +104,6 @@ function animate() {
     requestAnimationFrame(animate);
 
     controls.update();
-
-      if (zooming) {
-    // interpolación lineal (lerp)
-    camera.position.lerp(
-      new THREE.Vector3(camera.position.x, camera.position.y, endZ),
-      zoomSpeed
-    );
-
-    // detener cuando la cámara esté lo suficientemente cerca del destino
-    if (Math.abs(camera.position.z - endZ) < 0.5) {
-      camera.position.z = endZ;
-      zooming = false;
-    }
-  }
 
     renderer.render(scene, camera);
 }
