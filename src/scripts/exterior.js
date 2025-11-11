@@ -40,7 +40,7 @@ controls.dampingFactor = 0.05;
 controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
-controls.minDistance = 30;
+controls.minDistance = 16;
 controls.maxDistance = 100;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
