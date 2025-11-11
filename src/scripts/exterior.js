@@ -81,23 +81,15 @@ const sunHelper = new THREE.DirectionalLightHelper(sunLight, 1);
 
 scene.add(sunLight, ambientLight);
 
-
-// ANIM - ZoomOut
-const startZ = camera.position.z;
-const endZ = 20;
-const zoomSpeed = 0.006;
-let zooming = true;
-
-
-  function onWindowResize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  }
-  window.addEventListener('resize', onWindowResize);
+function onWindowResize() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+}
+window.addEventListener('resize', onWindowResize);
 
 // Animación & Rrender
 function animate() {
