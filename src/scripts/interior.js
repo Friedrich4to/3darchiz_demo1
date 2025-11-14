@@ -6,6 +6,7 @@ import '../style.css'
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 // Escena
 const scene = new THREE.Scene();
@@ -49,7 +50,13 @@ controls.addEventListener('change', () => {
 });
 
 
+// DRACO LOADER
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+
 const loader = new GLTFLoader();
+loader.setDRACOLoader(dracoLoader);
+dracoLoader.dispose();
 
 loader.load(
   '/models/interior.glb',

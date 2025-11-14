@@ -29,8 +29,8 @@
     const piso2 = (window as any).THREE_APP?.piso2;
     if (!piso2) return;
     toggleBtn.textContent = piso2.visible
-        ? 'Apartamento'
-        : 'Penthouse';
+        ? 'Bajar'
+        : 'Subir';
     }
 
     toggleBtn.addEventListener('click', () => {
@@ -74,17 +74,17 @@
 
     const isOpen = planosBtn.classList.contains('open');
     togglePlanos.textContent = isOpen
-      ? 'Ocultar Planos'
-      : 'Mostrar Planos';
+      ? 'Ocultar'
+      : 'Información';
   });
 
   // --- Estado inicial del botón de planos ---
   window.addEventListener('DOMContentLoaded', () => {
     const planosBtn = document.getElementById('planosBtn');
     if (planosBtn?.classList.contains('open')) {
-      togglePlanos.textContent = 'Ocultar Planos';
+      togglePlanos.textContent = 'Ocultar';
     } else {
-      togglePlanos.textContent = 'Mostrar Planos';
+      togglePlanos.textContent = 'Información';
     }
   });
 
