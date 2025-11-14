@@ -55,6 +55,28 @@ loader.load(
   '/models/interior.glb',
   (gltf) => {
     scene.add(gltf.scene);
+      const model = gltf.scene;
+
+      model.traverse((obj) => {
+        if (obj.isMesh && obj.material) {
+
+            const mat = obj.material;
+            const name = (mat.name || "").toLowerCase();
+
+            if (name.includes("glass")) {
+
+                obj.material = new THREE.MeshPhysicalMaterial({
+                    color: 0xCED7E1FF, 
+                    metalness: 0,
+                    roughness: 0,
+                    transmission: 1,        // refracción real
+                    ior: 2.33,
+                });
+
+                obj.material.needsUpdate = true;
+            }
+        }
+    });
 
     const piso2Objects = [];
     gltf.scene.traverse((child) => {

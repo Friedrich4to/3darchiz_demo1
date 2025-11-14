@@ -58,7 +58,29 @@ const loader = new GLTFLoader();
 loader.load( '/models/exterior.glb', function ( gltf ) {
 
   scene.add( gltf.scene );
-  console.log(gltf.cameras); // ← Array con las cámaras del .glb
+  const model = gltf.scene;
+
+      model.traverse((obj) => {
+        if (obj.isMesh && obj.material) {
+
+            const mat = obj.material;
+            const name = (mat.name || "").toLowerCase();
+
+            if (name.includes("glass")) {
+
+                obj.material = new THREE.MeshPhysicalMaterial({
+                    color: 0xCED7E1FF, 
+                    metalness: 0,
+                    roughness: 0,
+                    transmission: 1,        // refracción real
+                    ior: 2.33,
+                });
+
+                obj.material.needsUpdate = true;
+            }
+        }
+    });
+
 
 
 }, undefined, function ( error ) {
@@ -70,7 +92,7 @@ loader.load( '/models/exterior.glb', function ( gltf ) {
 
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
-ambientLight.intensity = 1.5;
+ambientLight.intensity = 3;
 
 const sunLight = new THREE.DirectionalLight(0xffffff, 2); // (color, intensidad)
 sunLight.position.set(30, 50, -20); // dirección desde donde entra la luz
