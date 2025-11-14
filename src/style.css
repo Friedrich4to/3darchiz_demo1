@@ -9,9 +9,9 @@ a, button{
     padding: 1rem 1.25rem;
     color: #000;
     background-color: #ffffff;
-    border-radius: 100rem;
+    border-radius: .5rem;
     font-size: 1rem;
-    border: 0px;
+    border: 1px #fff;
     transition: .1s;
     cursor: pointer;
     white-space: nowrap;
@@ -43,7 +43,7 @@ nav{
     align-items: center;
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.5); /* bg-white/80 */
-    border-radius: 100rem; /* rounded-lg = 8px */
+    border-radius: 1rem; /* rounded-lg = 8px */
     backdrop-filter: blur(4px); /* backdrop-blur-sm */
     transition: .5s ease-in-out;
 }
