@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Loading from '../components/loading.astro';
+let isLoading = true;
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -7,6 +9,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 	<canvas id="bg"></canvas>
+	<Loading isLoading={isLoading} />
 	<div class="planos" id="planosBtn">
 		<button id="closePlanos" class="close-planos">Cerrar</button>
 		<img src='/images/image.webp' alt="">
@@ -30,3 +33,9 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script src="../scripts/exterior.js"></script>
+<script>
+  window.addEventListener("hriv-loaded", () => {
+    console.log("Evento recibido en Astro");
+    document.querySelector('.loading-container')?.classList.add('hidden');
+  });
+</script>

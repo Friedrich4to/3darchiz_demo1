@@ -51,13 +51,22 @@ renderer.setPixelRatio( window.devicePixelRatio);
 
 // Splat
 const splatURL = '/models/gausian_v2.ksplat';
-const hriv = new SplatMesh({ url: splatURL });
+const hriv = new SplatMesh({ 
+    url: splatURL,
+    onLoad: () => {
+        console.log("Modelo cargado con éxito");
+        document.querySelector('.loading-container')?.classList.add('hidden');
+}});
 hriv.quaternion.set(1, 0, 0, 0);
 hriv.position.set(-5, 0, 0);
 hriv.scale.set(4, 4, 4 );
 
 
 scene.add(hriv);
+
+hriv.onLoad = () => {
+  console.log("CARGO");
+};
 
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
@@ -92,4 +101,3 @@ function animate() {
 }
 
 animate();
-

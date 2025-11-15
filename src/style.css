@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
 
-* {
-  font-family: 'Outfit', sans-serif;
-}
 
 :root {
   /* Colores principales */
   --blue: #284768;
---white: #f4f4f4;
+    --white: #f4f4f4;
 
 }
 
-
+* {
+  font-family: 'Outfit', sans-serif;
+  color: var(--blue);
+}
 
 a, button{
     text-decoration: none;

@@ -1,0 +1,51 @@
+---
+
+---
+<div class='loading-container'>
+  <img src="/logos/harmony.svg" class="harmony_logo" alt="">
+  <p>Cargando proyecto...</p>
+</div>
+
+<style>
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--white);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 2s ease;
+    z-index: 9999;
+    font-size: 1.5rem;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #ccc;
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.harmony_logo{
+    height: 120px;
+    width: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
