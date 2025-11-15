@@ -131,18 +131,18 @@ function onHover(event) {
     }
 }
 
+let panoViewer = null; // ← referencia global al viewer
+
+// HOTSPOTS THREEJS
 function onClickOrTouch(event) {
     event.preventDefault();
 
     let x, y;
 
-    // Si es touch
     if (event.touches && event.touches.length > 0) {
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
-    } 
-    // Si es mouse
-    else {
+    } else {
         x = event.clientX;
         y = event.clientY;
     }
@@ -155,39 +155,41 @@ function onClickOrTouch(event) {
 
     const intersects = raycaster.intersectObjects(scene.children, true);
 
-    console.log("Intersecciones detectadas:", intersects.length);
-
     if (intersects.length > 0) {
         const obj = intersects[0].object;
 
-        console.log("Objeto clickeado:", obj.name);
-
         if (obj.name === "hotspot-panellum-1") {
-            console.log("Hotspot 1 clickeado correctamente");
             openPanellum("p1");
         }
 
         if (obj.name === "hotspot-panellum-2") {
-            console.log("Hotspot 2 clickeado correctamente");
             openPanellum("p2");
         }
     }
 }
 
-//PANELLUM
-function openPanellum(panoramaId, imagePath) {
+// ===================================================================
+// PANELLUM
+// ===================================================================
+function openPanellum(panoramaId) {
 
-    const viewerDiv = document.getElementById("panellum-viewer");
-    viewerDiv.style.display = "block";
+    // Si ya existe un viewer previo, destruir antes de crear otro
+    if (panoViewer) {
+        panoViewer.destroy();
+        panoViewer = null;
+    }
 
-    pannellum.viewer('panellum-viewer', {
+    // Mostrar overlay
+    document.getElementById("panellum-overlay").style.display = "block";
+
+    // Crear viewer nuevo
+    panoViewer = pannellum.viewer("panellum-container", {
         default: {
             firstScene: panoramaId,
             autoLoad: true
         },
 
         scenes: {
-
             // PANORAMA 1
             p1: {
                 type: "equirectangular",
@@ -198,11 +200,10 @@ function openPanellum(panoramaId, imagePath) {
                         yaw: 0,
                         type: "scene",
                         sceneId: "p2",
-                    },
-
-                    // ← Aquí puedes agregar más hotspots personalizados
+                    }
                 ]
             },
+
             // PANORAMA 2
             p2: {
                 type: "equirectangular",
@@ -213,19 +214,30 @@ function openPanellum(panoramaId, imagePath) {
                         yaw: 0,
                         type: "scene",
                         sceneId: "p1",
-                    },
-
-                    // ← Aquí puedes agregar más hotspots personalizados
+                    }
                 ]
-            },
-
-            // --------------  
-            // (Puedes seguir agregando escenas aquí)
-            // --------------
-
+            }
         }
     });
 }
+
+// ===================================================================
+// CERRAR PANELLUM
+// ===================================================================
+document.getElementById("close-pano").addEventListener("click", () => {
+
+    if (panoViewer) {
+        panoViewer.destroy();
+        panoViewer = null;
+    }
+
+    // Ocultar overlay
+    document.getElementById("panellum-overlay").style.display = "none";
+
+    // Limpia el contenedor para evitar residuos
+    document.getElementById("panellum-container").innerHTML = "";
+});
+
 
 
 

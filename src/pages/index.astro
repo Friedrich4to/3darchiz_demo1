@@ -9,11 +9,19 @@ let isLoading = true;
 
 <Layout>
 	<canvas id="bg"></canvas>
-	<div id="panellum-viewer" style="width:100%; height:100vh; display:none; position:fixed; top:0; left:0; z-index:9999;">
-		<div id="panellum-viewer">
-			<button id="close-pano">Cerrar</button>
-		</div>
+
+	<div id="panellum-overlay" 
+		style="width:100%; height:100vh; display:none; position:fixed; top:0; left:0; 
+				z-index:9999; background:black;">
+		
+		<button id="close-pano" 
+				style="position:absolute; top:20px; right:20px; z-index:10000;">
+			Cerrar
+		</button>
+
+		<div id="panellum-container" style="width:100%; height:100%;"></div>
 	</div>
+
 	<Loading isLoading={isLoading} />
 	<div class="planos" id="planosBtn">
 		<button id="closePlanos" class="close-planos">Cerrar</button>
@@ -44,7 +52,4 @@ let isLoading = true;
     document.querySelector('.loading-container')?.classList.add('hidden');
   });
 
-	document.getElementById("close-pano")!.addEventListener("click", () => {
-		document.getElementById("panellum-viewer")!.style.display = "none";
-	});
 </script>
