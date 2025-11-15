@@ -7,11 +7,13 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+  import { SplatMesh } from "@sparkjsdev/spark";
+
 
 
 // Escena
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xd1e9f3ff);
+scene.background = new THREE.Color(0x181818);
 
 // Camara
 const camera = new THREE.PerspectiveCamera(
@@ -20,7 +22,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
     );
-camera.position.set(16, 16, 20); // X, Y, Z
+camera.position.set(0, 0, 0); // X, Y, Z
 camera.fov = 60;
 
 
@@ -34,68 +36,26 @@ const renderer = new THREE.WebGLRenderer({
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-controls.target.set(0, 5, -5);
+controls.target.set(0, 0, 0);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
 controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
-controls.minDistance = 16;
+controls.minDistance = 1;
 controls.maxDistance = 100;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio);
 
-controls.addEventListener('change', () => {
-  controls.target.y = Math.max(0, Math.min(controls.target.y, 10)); // entre 0 y 10
-});
 
-
-
-// DRACO LOADER
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
-
-// Modelados
-const loader = new GLTFLoader();
-loader.setDRACOLoader(dracoLoader);
-dracoLoader.dispose();
-
-loader.load( '/models/exterior.glb', function ( gltf ) {
-
-  scene.add( gltf.scene );
-  const model = gltf.scene;
-
-      model.traverse((obj) => {
-        if (obj.isMesh && obj.material) {
-
-            const mat = obj.material;
-            const name = (mat.name || "").toLowerCase();
-
-            if (name.includes("glass")) {
-
-                obj.material = new THREE.MeshPhysicalMaterial({
-                    color: 0xCED7E1FF, 
-                    metalness: 0,
-                    roughness: 0,
-                    transmission: 1,        // refracción real
-                    ior: 2.33,
-                });
-
-                obj.material.needsUpdate = true;
-            }
-        }
-    });
-
-
-
-}, undefined, function ( error ) {
-
-  console.error( error );
-
-} );
-
+// Splat
+  const splatURL = '/models/gaussian.splat';
+  const hriv = new SplatMesh({ url: splatURL });
+  hriv.quaternion.set(1, 0, 0, 0);
+  hriv.position.set(0, 0, 0);
+  scene.add(hriv);
 
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
