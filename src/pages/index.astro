@@ -7,7 +7,26 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 	<canvas id="bg"></canvas>
-	<div class="planos" id="planosBtn">Aquí van los planos</div>
+	<div class="planos" id="planosBtn">
+		<button id="closePlanos" class="close-planos">Cerrar</button>
+		<img src='/images/image.webp' alt="">
+		<div class="datos">
+				<li><span>1</span> Habitación</li>
+				<li><span>2</span> Baños</li>
+				<li>Sala</li>
+				<li>Comedor</li>
+				<li>Área de lavado</li>
+				<li>Parqueo</li>
+		</div>
+		<div class="contact">
+			<h2>Contacto</h2>
+			<div class="contact_data">
+				<a href="https://www.portiersrl.com/" target="_blank">Website</a>
+				<a href="mailto:gerencia@portiersrl.com" target="_blank">Enviar correo</a>
+				<a href="https://maps.app.goo.gl/FnYnNvsQGrtAZJP5A" target="_blank">Avenida San Vicente de Paul No.208, <br>Plaza Bonaire 3er Piso, <br>Santo Domingo Este 11509</a>
+			</div>
+		</div>
+	</div>
 </Layout>
 
 <script src="../scripts/exterior.js"></script>

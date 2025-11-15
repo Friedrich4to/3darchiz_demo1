@@ -1,24 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
+
+:root {
+  /* Colores principales */
+  --blue: #284768;
+--white: #f4f4f4;
+
+}
+
+
 
 a, button{
     text-decoration: none;
     padding: 1rem 1.25rem;
-    color: #000;
-    background-color: #ffffff;
-    border-radius: .5rem;
+    color: var(--blue);
+    border-radius: 100rem;
+    background-color: rgba(255, 255, 255, 0);
     font-size: 1rem;
-    border: 1px #fff;
-    transition: .1s;
+    border: solid 1px var(--blue);
+    transition: .25s ease-in-out;
     cursor: pointer;
-    white-space: nowrap;
+    flex-wrap: nowrap;
 }
 
 a:hover, button:hover{
     scale: 1.1;
+    color: var(--white);
+    background-color: var(--blue);
+    border: solid 1px var(--blue);
 }
 
 a:active, button:active{
@@ -31,36 +43,123 @@ canvas{
     left: 0;
 }
 
+img{
+    width: auto;
+    height: 100%;
+}
+
 nav{
     display: flex;
     padding: 1rem 2rem;
-    background-color: #fff;
+    background-color: var(--white);
     position: fixed;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
-    gap: 2rem;
+    gap: 1.5rem;
     align-items: center;
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.5); /* bg-white/80 */
-    border-radius: 1rem; /* rounded-lg = 8px */
+    border-radius: 100rem; /* rounded-lg = 8px */
     backdrop-filter: blur(4px); /* backdrop-blur-sm */
     transition: .5s ease-in-out;
+}
+
+.portier-logo{
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 999999999;
+    height: 4.25rem;
+    width: auto;
 }
 
 .planos{
     position: fixed;
     display: flex;
     width: 30vw;
-    height: 100svh;
-    background-color: #fff;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+    backdrop-filter: blur(10px); /* backdrop-blur-sm */
     align-items: center;
-    justify-content: center;
     right: 0;
     transform: translateX(50vw);
     transition: .5s ease-in-out;
+    gap: 4rem;
+
+    padding: 4rem 1rem 4rem 2rem;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.planos img{
+    height: auto;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.close-planos{
+    top: 0;
+    left: 0;
+    position: sticky;
+    background-color: var(--white);
 }
 
 .open{
     transform: translateX(0vw);
+}
+
+.datos{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1.5rem;
+    width: 100%;
+    color: var(--blue);
+    list-style: none;
+    text-decoration: none;
+}
+
+.contact{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10rem;
+}
+
+.contact h2{
+    color: var(--blue);
+    font-size: 2rem;
+    line-height: 2rem;
+}
+
+.contact_data{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hriv-logo{
+    height: 2rem;
+    width: auto;
+}
+
+@media (max-width: 900px) {
+    .portier-logo{
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 999999999;
+        height: 4rem;
+        width: auto;
+    }
+
+    #togglePlanos{
+        display: none;
+    }
+
+    .hriv-logo{
+        height: 1.5rem;
+        width: auto;
+    }
 }

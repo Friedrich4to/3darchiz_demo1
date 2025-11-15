@@ -22,7 +22,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
     );
-camera.position.set(0, 0, 0); // X, Y, Z
+camera.position.set(10, -10, 0); // X, Y, Z
 camera.fov = 60;
 
 
@@ -36,25 +36,26 @@ const renderer = new THREE.WebGLRenderer({
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-controls.target.set(0, 0, 0);
+controls.target.set(-10, -8, 0);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
 controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
-controls.minDistance = 1;
-controls.maxDistance = 100;
+controls.minDistance = 12;
+controls.maxDistance = 20;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio);
 
 
 // Splat
-  const splatURL = '/models/gaussian.splat';
+  const splatURL = '/models/gausian_v2.ksplat';
   const hriv = new SplatMesh({ url: splatURL });
   hriv.quaternion.set(1, 0, 0, 0);
-  hriv.position.set(0, 0, 0);
+  hriv.position.set(-5, 0, 0);
+  hriv.scale.set(4, 4, 4);
   scene.add(hriv);
 
 // Luz
