@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-  import { SplatMesh } from "@sparkjsdev/spark";
+import { SplatMesh } from "@sparkjsdev/spark";
 
 
 
@@ -29,8 +29,7 @@ camera.fov = 60;
 
 // Renderizador
 const renderer = new THREE.WebGLRenderer({ 
-    canvas: document.querySelector('#bg'),
-    antialias: true
+    canvas: document.querySelector('#bg')
 });
 
 // OrbitControls
@@ -51,12 +50,14 @@ renderer.setPixelRatio( window.devicePixelRatio);
 
 
 // Splat
-  const splatURL = '/models/gausian_v2.ksplat';
-  const hriv = new SplatMesh({ url: splatURL });
-  hriv.quaternion.set(1, 0, 0, 0);
-  hriv.position.set(-5, 0, 0);
-  hriv.scale.set(4, 4, 4);
-  scene.add(hriv);
+const splatURL = '/models/gausian_v2.ksplat';
+const hriv = new SplatMesh({ url: splatURL });
+hriv.quaternion.set(1, 0, 0, 0);
+hriv.position.set(-5, 0, 0);
+hriv.scale.set(4, 4, 4 );
+
+
+scene.add(hriv);
 
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
