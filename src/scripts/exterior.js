@@ -87,6 +87,7 @@ hotspot1.layers.set(1);
 const hotspot2 = new THREE.Mesh(geometry, baseMaterial.clone());
 hotspot2.position.set(-7, -10.5, 6); 
 hotspot2.name = "hotspot-panellum-2";
+hotspot2.layers.set(1);
 
 scene.add(hotspot1, hotspot2);
 
