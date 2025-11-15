@@ -18,7 +18,7 @@ a, button{
     padding: 1rem 1.25rem;
     color: var(--blue);
     border-radius: 100rem;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: var(--white);
     font-size: 1rem;
     border: solid 1px var(--blue);
     transition: .25s ease-in-out;
@@ -142,6 +142,13 @@ nav{
 .hriv-logo{
     height: 2rem;
     width: auto;
+}
+
+#close-pano{
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 99999;
 }
 
 @media (max-width: 900px) {

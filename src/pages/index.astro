@@ -9,6 +9,11 @@ let isLoading = true;
 
 <Layout>
 	<canvas id="bg"></canvas>
+	<div id="panellum-viewer" style="width:100%; height:100vh; display:none; position:fixed; top:0; left:0; z-index:9999;">
+		<div id="panellum-viewer">
+			<button id="close-pano">Cerrar</button>
+		</div>
+	</div>
 	<Loading isLoading={isLoading} />
 	<div class="planos" id="planosBtn">
 		<button id="closePlanos" class="close-planos">Cerrar</button>
@@ -38,4 +43,8 @@ let isLoading = true;
     console.log("Evento recibido en Astro");
     document.querySelector('.loading-container')?.classList.add('hidden');
   });
+
+	document.getElementById("close-pano")!.addEventListener("click", () => {
+		document.getElementById("panellum-viewer")!.style.display = "none";
+	});
 </script>

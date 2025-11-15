@@ -11,6 +11,7 @@ import { SplatMesh } from "@sparkjsdev/spark";
 
 
 
+
 // Escena
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x181818);
@@ -61,25 +62,163 @@ hriv.quaternion.set(1, 0, 0, 0);
 hriv.position.set(-5, 0, 0);
 hriv.scale.set(4, 4, 4 );
 
-
 scene.add(hriv);
 
-hriv.onLoad = () => {
-  console.log("CARGO");
-};
+// Hotspot
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
+
+let hoveredObject = null;
+
+const geometry = new THREE.SphereGeometry(.5, 12, 12 );
+
+const baseMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+});
+const hoverMaterial = new THREE.MeshBasicMaterial({
+    color: 0x284768,
+});
+
+const hotspot1 = new THREE.Mesh(geometry, baseMaterial.clone());
+hotspot1.position.set(-6.25, -10.5, -2.5); 
+hotspot1.name = "hotspot-panellum-1";    
+
+const hotspot2 = new THREE.Mesh(geometry, baseMaterial.clone());
+hotspot2.position.set(-7, -10.5, 6); 
+hotspot2.name = "hotspot-panellum-2";
+
+scene.add(hotspot1, hotspot2);
+
+window.addEventListener("click", onClick);
+window.addEventListener("mousemove", onHover);
+
+function onHover(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects([hotspot1, hotspot2], true);
+
+    if (intersects.length > 0) {
+        const obj = intersects[0].object;
+
+        // Cambiar cursor
+        document.body.style.cursor = "pointer";
+
+        // Restaurar el anterior si es diferente
+        if (hoveredObject && hoveredObject !== obj) {
+            hoveredObject.material = baseMaterial.clone();
+        }
+
+        // Aplicar material hover
+        obj.material = hoverMaterial.clone();
+        hoveredObject = obj;
+
+    } else {
+        // Restaurar si no hay nada en hover
+        if (hoveredObject) {
+            hoveredObject.material = baseMaterial.clone();
+            hoveredObject = null;
+        }
+
+        document.body.style.cursor = "default";
+    }
+}
+
+function onClick(event) {
+    event.preventDefault();
+
+    // convertir coordenadas del click
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    console.log("Intersecciones detectadas:", intersects.length);
+
+    if (intersects.length > 0) {
+        const obj = intersects[0].object;
+
+        console.log("Objeto clickeado:", obj.name);
+
+
+        // Hotspot gazebo_1
+        if (obj.name === "hotspot-panellum-1") {
+            console.log("Hotspot 1 clickeado correctamente");
+            openPanellum("p1");
+        }
+
+        // Hotspot gazebo_1
+        if (obj.name === "hotspot-panellum-2") {
+            console.log("Hotspot 2 clickeado correctamente");
+            openPanellum("p2");
+        }
+    }
+}
+
+//PANELLUM
+function openPanellum(panoramaId, imagePath) {
+
+    const viewerDiv = document.getElementById("panellum-viewer");
+    viewerDiv.style.display = "block";
+
+    pannellum.viewer('panellum-viewer', {
+        default: {
+            firstScene: panoramaId,
+            autoLoad: true
+        },
+
+        scenes: {
+
+            // PANORAMA 1
+            p1: {
+                type: "equirectangular",
+                panorama: "/images/pano/gazebo_1.jpg",
+                hotSpots: [
+                    {
+                        pitch: 0,
+                        yaw: 0,
+                        type: "scene",
+                        sceneId: "p2",
+                    },
+
+                    // ← Aquí puedes agregar más hotspots personalizados
+                ]
+            },
+            // PANORAMA 2
+            p2: {
+                type: "equirectangular",
+                panorama: "/images/pano/gazebo_2.jpg",
+                hotSpots: [
+                    {
+                        pitch: 0,
+                        yaw: 0,
+                        type: "scene",
+                        sceneId: "p1",
+                    },
+
+                    // ← Aquí puedes agregar más hotspots personalizados
+                ]
+            },
+
+            // --------------  
+            // (Puedes seguir agregando escenas aquí)
+            // --------------
+
+        }
+    });
+}
+
+
+
 
 // Luz
 const ambientLight = new THREE.AmbientLight(0xffffff)
-ambientLight.intensity = 3;
+ambientLight.intensity = 10;
 
-const sunLight = new THREE.DirectionalLight(0xffffff, 2); // (color, intensidad)
-sunLight.position.set(30, 50, -20); // dirección desde donde entra la luz
-sunLight.intensity = 1;
-sunLight.castShadow = true;
-
-const sunHelper = new THREE.DirectionalLightHelper(sunLight, 1);
-
-scene.add(sunLight, ambientLight);
+scene.add(ambientLight);
 
 function onWindowResize() {
   const w = window.innerWidth;
