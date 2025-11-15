@@ -44,7 +44,7 @@ controls.minPolarAngle = Math.PI / 4; // 45 grados
 controls.maxPolarAngle = Math.PI / 2.2; // 90 grados
 
 controls.minDistance = 12;
-controls.maxDistance = 20;
+controls.maxDistance = 26;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio);
