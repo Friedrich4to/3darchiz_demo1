@@ -82,6 +82,7 @@ const hoverMaterial = new THREE.MeshBasicMaterial({
 const hotspot1 = new THREE.Mesh(geometry, baseMaterial.clone());
 hotspot1.position.set(-6.25, -10.5, -2.5); 
 hotspot1.name = "hotspot-panellum-1";    
+hotspot1.layers.set(1);
 
 const hotspot2 = new THREE.Mesh(geometry, baseMaterial.clone());
 hotspot2.position.set(-7, -10.5, 6); 
@@ -89,7 +90,11 @@ hotspot2.name = "hotspot-panellum-2";
 
 scene.add(hotspot1, hotspot2);
 
-window.addEventListener("click", onClick);
+camera.layers.enable(1);
+raycaster.layers.set(1);
+
+window.addEventListener("click", onClickOrTouch);
+window.addEventListener("touchstart", onClickOrTouch);
 window.addEventListener("mousemove", onHover);
 
 function onHover(event) {
@@ -125,12 +130,25 @@ function onHover(event) {
     }
 }
 
-function onClick(event) {
+function onClickOrTouch(event) {
     event.preventDefault();
 
-    // convertir coordenadas del click
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    let x, y;
+
+    // Si es touch
+    if (event.touches && event.touches.length > 0) {
+        x = event.touches[0].clientX;
+        y = event.touches[0].clientY;
+    } 
+    // Si es mouse
+    else {
+        x = event.clientX;
+        y = event.clientY;
+    }
+
+    // convertir coordenadas normalizadas
+    mouse.x = (x / window.innerWidth) * 2 - 1;
+    mouse.y = -(y / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
 
@@ -143,14 +161,11 @@ function onClick(event) {
 
         console.log("Objeto clickeado:", obj.name);
 
-
-        // Hotspot gazebo_1
         if (obj.name === "hotspot-panellum-1") {
             console.log("Hotspot 1 clickeado correctamente");
             openPanellum("p1");
         }
 
-        // Hotspot gazebo_1
         if (obj.name === "hotspot-panellum-2") {
             console.log("Hotspot 2 clickeado correctamente");
             openPanellum("p2");
